@@ -1,0 +1,32 @@
+#!/bin/sh
+
+readonly IMG_VIEWER='imv'
+readonly INSTANCE="$1"
+readonly COMMUNITY="$2"
+readonly SORT='Hot'
+
+readonly TMP_DIR="/tmp/lemmybar/$USER"
+rm -rf $TMP_DIR
+mkdir -p $TMP_DIR
+cd $TMP_DIR
+
+# get feed
+readonly FEED_URL="https://$INSTANCE/feeds/c/$COMMUNITY.xml?sort=$SORT"
+printf "downloading feed... "
+readonly FEED=`curl --silent "$FEED_URL"`
+printf "done\n\n"
+
+# get image urls
+images=`echo $FEED | htmlq 'item > description > a:last-of-type' -p -t | grep -P 'http://|https://'`
+
+
+
+# download images
+for i in $images; do
+	printf "downloading $i... "
+	curl -LO --silent $i
+	echo "done"
+done;
+
+# view images
+$IMG_VIEWER $TMP_DIR
