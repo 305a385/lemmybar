@@ -1,10 +1,51 @@
 #!/bin/sh
 
-readonly IMG_VIEWER='imv'
+
+helpMsg() {
+   # Display Help
+   echo "Lemmybar - lemmy image viewer"
+   echo
+   echo "Syntax: ./lemmybar [options...] <instance> <community> [sort by]"
+   echo "options:"
+   echo "-h, --help		print help and exit"
+   echo "<instance>		Instance community is in. e.g. lemmy.ml"
+   echo "<community>		community to search. e.g. memes"
+   echo "[sort by]		how images are sorted, options:"
+   echo "Hot, New, Active, Old, MostComments, NewComments"
+   echo "Top(Day|Week|Month|Year|All)"
+   echo
+   echo "Examples:"
+   echo "	$ lemmybar lemmy.ml memes"
+   echo "	$ lemmybar lemmy.ml memes Hot"
+   echo "	$ lemmybar lemmy.ml memes New"
+   echo "	$ lemmybar lemmy.ml memes TopDay"
+   echo
+}
+
+
 
 ## parse arguments
 
-exit
+# check for non positional arguments
+for i; do
+	case $i in
+		-h|-\?|--help)
+			helpMsg
+
+			exit
+			;;
+
+		--)			  # End of all options.
+			shift
+			break
+			;;
+
+		*)			   # Default case: If no more options then break out of the loop.
+			break
+	esac
+done;
+
+
 # get community
 readonly INSTANCE="$1"
 readonly COMMUNITY="$2"
@@ -16,12 +57,12 @@ else
 	readonly SORT="Hot"
 fi;
 
-echo $SORT
-
 readonly TMP_DIR="/tmp/lemmybar/$USER"
 rm -rf $TMP_DIR
 mkdir -p $TMP_DIR
 cd $TMP_DIR
+
+readonly IMG_VIEWER='imv'
 
 # get feed
 readonly FEED_URL="https://$INSTANCE/feeds/c/$COMMUNITY.xml?sort=$SORT"
