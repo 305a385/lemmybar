@@ -1,9 +1,22 @@
 #!/bin/sh
 
 readonly IMG_VIEWER='imv'
+
+## parse arguments
+
+exit
+# get community
 readonly INSTANCE="$1"
 readonly COMMUNITY="$2"
-readonly SORT='Hot'
+
+# get sort
+if [ "$3" ]; then
+	readonly SORT="$3"
+else
+	readonly SORT="Hot"
+fi;
+
+echo $SORT
 
 readonly TMP_DIR="/tmp/lemmybar/$USER"
 rm -rf $TMP_DIR
