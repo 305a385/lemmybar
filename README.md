@@ -13,3 +13,6 @@ returns images from a lemmy community
 ```
 $ ./lemmybar lemmy.ml memes
 ```
+
+## LICENSE
+AGPL v3.0-or-later view "LICENSE" file in the root directory for more info
