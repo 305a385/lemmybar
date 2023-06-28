@@ -1,3 +1,6 @@
+moved to [codeberg](https://codeberg.org/305a385/lemmybar)
+
+
 ### lemmybar - redyt for lemmy
 
 inspired by [redyt](https://github.com/Bugswriter/redyt)
